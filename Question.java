@@ -1,3 +1,8 @@
+/**
+ * @param id: is the id of the question
+ * @param question:
+ *
+ */
 public class Question {
     private int id;
     private String question;
@@ -52,3 +57,4 @@ public class Question {
     }
 
 }
+

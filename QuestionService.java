@@ -4,7 +4,7 @@ public class QuestionService {
 
     private Question[] questions = new Question[5];
     private String[] results = new String[5];
-    private int score = 0;
+
 
     QuestionService() {
         questions[0] = new Question(1, "Whats is your favorite color", "yellow", "blue", "green", "red", "yellow");
@@ -33,18 +33,19 @@ public class QuestionService {
 
     protected void getResult() {
         int index = 0;
+        int score = 0;
         for (Question q : questions) {
             String answer = q.getAnswer();
             String result = results[index++];
             System.out.println("Result: " + result + "Answer: " + answer);
 
-            if (answer.toUpperCase().equals(result.toUpperCase())) {
-                this.score = this.score + 1;
+            if (answer.equalsIgnoreCase(result)){
+                score += 1;
             }
 
         }
 
-        System.out.println("Your score is:  " + this.score + "/ " + this.questions.length);
+        System.out.println("Your score is:  " + score + "/ " + this.questions.length);
 
     }
 }
