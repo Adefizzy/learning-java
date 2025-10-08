@@ -1,11 +1,26 @@
 
+interface A {
+    int age = 44;
+    String area ="adatan";
+    void show();
+    void config();
+}
 
+class B implements A{
+    public void show(){
+        System.out.println("this is show " + A.age);
+    }
+
+    public  void  config(){
+        System.out.println("this is config " + A.area);
+    }
+}
 
 public class Main {
     public static void main(String[] arg) {
-        QuestionService questionService = new QuestionService();
+       A b = new B();
 
-        questionService.playQuiz();
-        questionService.getResult();
+       b.show();
+       b.config();
     }
 }
