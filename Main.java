@@ -20,61 +20,65 @@ enum Status {
     Running, Failed, Pending, Success
 }
 
-class PrintString {
-
-    String input;
-    public PrintString(String input){
-        this.input = input;
-
+class HandleIncrement {
+    private int count;
+    public synchronized void increment(){
+        count++;
     }
 
-    public void print(){
-        for (int i = 0;  i < 10; i++){
-            System.out.println(this.input);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+
+    public int getCount() {
+        return count;
     }
 
-    public  void print(int count, int sleep){
-        for (int i = 0;  i < count; i++){
-            System.out.println(this.input);
-            try {
-                Thread.sleep(sleep);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
 
+
+
 public class Main {
-    public static void main(String[] arg) {
-       A b = new B();
+    public static void main(String[] arg) throws InterruptedException {
+//        A b = new B();
+//
+//        b.show();
+//        b.config();
+//
+//        Status s = Status.Running;
+//
+//        switch (s) {
+//            case Status.Running -> System.out.println("in progress");
+//            case Status.Failed -> System.out.println("failed status");
+//            case Status.Pending -> System.out.println("pending status");
+//            default -> System.out.println("Successful");
+//        }
+//
+//        Runnable first = () -> {
+//            PrintString printer = new PrintString("h1");
+//            printer.print();
+//        };
+//
+//        Runnable second = () -> {
+//            PrintString printer = new PrintString("hello");
+//            printer.print(10, 5);
+//        };
+//
+//        Thread firstThread = new Thread(first);
+//        Thread secondThread = new Thread(second);
+//
+//        firstThread.start();
+//        secondThread.start();
 
-       b.show();
-       b.config();
 
-        Status s = Status.Running;
-
-        switch (s){
-            case Status.Running -> System.out.println("in progress");
-            case Status.Failed -> System.out.println("failed status");
-            case Status.Pending -> System.out.println("pending status");
-            default -> System.out.println("Successful");
-        }
-
+        HandleIncrement handleIncrement = new HandleIncrement();
         Runnable first = () -> {
-            PrintString printer = new PrintString("h1");
-            printer.print();
+           for(int i = 0 ; i < 10000; i++) {
+               handleIncrement.increment();
+           }
         };
 
         Runnable second = () -> {
-            PrintString printer = new PrintString("hello");
-            printer.print(10, 5);
+            for(int i = 0 ; i < 10000; i++) {
+                handleIncrement.increment();
+            }
         };
 
         Thread firstThread = new Thread(first);
@@ -82,5 +86,10 @@ public class Main {
 
         firstThread.start();
         secondThread.start();
+
+        firstThread.join();
+        secondThread.join();
+        System.out.println(handleIncrement.getCount());
+
     }
 }
